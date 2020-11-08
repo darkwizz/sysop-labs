@@ -33,7 +33,7 @@ int main() {
 
     int sleep_seconds;
     sleep_seconds = 2;
-    while (1) {
+    while (tail) {
         for (int i = 0; i < 5000; i++) {
             tail = add_list_item(tail, value);
         }

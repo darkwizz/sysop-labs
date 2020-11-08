@@ -13,7 +13,7 @@ echo "PID is: $process_id"
 memory=$(pmap $process_id | tail -1 | awk '{print $2}' | cut -dK -f 1)
 echo "Current memory is $memory"
 
-while [[ $memory < $size ]]; do
+while [ "$memory" -lt "$size" ] ; do
 	echo "Current memory is $memory"
 	memory=$(pmap $process_id | tail -1 | awk '{print $2}' | cut -dK -f 1)
 	sleep 1

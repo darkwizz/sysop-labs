@@ -19,7 +19,7 @@ echo "m***.h count in /usr/include: $h_count"
 
 
 # find the number of regular files > 12 KB inside /usr/include
-files12k_count=$( find /usr/include -type f -size +12k | wc -l )
+files12k_count=$( find /usr/include -type f -size +12000c | wc -l )
 echo "Files > 12 KB count in /usr/include: $files12k_count"
 
 

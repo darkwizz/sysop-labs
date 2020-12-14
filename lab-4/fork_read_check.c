@@ -6,12 +6,12 @@
 int main()
 {
     pid_t pid;
-
-    pid = fork();
     int num_to_read;
-    pid_t proc_pid;
     FILE* f = fopen("../.gitignore", "r");
     int* dynamic_int = (int*) malloc(sizeof(int));
+
+    pid = fork();
+    pid_t proc_pid;
 
     if (pid < 0)
     {

@@ -12,6 +12,7 @@ int main()
 
     pid = fork();
     pid_t proc_pid;
+    int* another_dynamic_int = (int*) malloc(sizeof(int));
 
     if (pid < 0)
     {
@@ -41,12 +42,21 @@ int main()
     if (f != NULL)
     {
         printf("\nClosing file for PID: %d\n", proc_pid);
-        fclose(f);
+        int close_result = fclose(f);
+        if (close_result == -1)
+        {
+            printf("\nProcess with PID %d is closing already closed file", proc_pid);
+        }
     }
     if (dynamic_int != NULL)
     {
         printf("\nReleasing allocated memory for PID: %d\n", proc_pid);
         free(dynamic_int);
+    }
+    if (another_dynamic_int != NULL)
+    {
+        printf("\nReleasing ANOTHER allocated memory for PID: %d\n", proc_pid);
+        free(another_dynamic_int);
     }
     printf("Entered number in PID %d: %d\n", proc_pid, num_to_read);
     return 0;

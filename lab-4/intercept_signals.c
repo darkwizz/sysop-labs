@@ -15,6 +15,8 @@ int main()
     signal(SIGINT, signal_handler);
     signal(SIGSTOP, signal_handler);
     signal(SIGTERM, signal_handler);
+    signal(SIGRTMAX, signal_handler);
+    signal(SIGRTMAX - 14, signal_handler);
     while (1)
     {
         sleep(2);

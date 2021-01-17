@@ -2,6 +2,10 @@
 *.txt
 *.pdf
 
+.vscode/
+
+*.msg
+
 # C files
 *.out
 *.o

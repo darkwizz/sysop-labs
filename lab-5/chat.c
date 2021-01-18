@@ -7,9 +7,12 @@
 #include <errno.h>
 
 
+#define MSG_LEN 240
 #define USERNAME_LEN 10
 char USERNAME[USERNAME_LEN];
 const char* MSG_FILE_PATH = "chat.msg";
+
+int current_msg_line = 0;
 
 sem_t* chat_sem;
 
@@ -44,24 +47,30 @@ int main(int argc, char** argv)
 
     chat_sem = sem_open("/CHAT_SEMAPHORE", O_CREAT, S_IRUSR |
         S_IWUSR | S_IRGRP | S_IWGRP, 1);
+
     if (chat_sem == SEM_FAILED)
     {
         printf("Cannot open semaphore, error %s\n", strerror(errno));
         return -5;
     }
     // printf("Open semaphore successfully\n");
-    read_sent_messages();
 
-    char message[240];
+    char message[MSG_LEN];
     while (1)
     {
+        memset(message, 0, MSG_LEN);
+        read_sent_messages();
         printf("You (or type EXIT): ");
-        scanf("%[^\n]%*c", message);
-        if (strcmp("EXIT", message) == 0)
+        // scanf("%[^\n]%*c", message);
+        fgets(message, MSG_LEN, stdin);
+        if (strcmp("EXIT\n", message) == 0)
         {
             break;
         }
-        send_message(USERNAME, message);
+        if (strlen(message) > 0 && message[0] != '\n')
+        {
+            send_message(USERNAME, message);
+        }
     }
 
     sem_close(chat_sem);
@@ -83,8 +92,16 @@ void read_sent_messages()
     size_t len = 0;
     ssize_t read;
     char sep[] = "#";
+    int lines_read = 0;
     while ((read = getline(&line, &len, messages)) != -1)
     {
+        lines_read++;
+        if (lines_read <= current_msg_line)
+        {
+            continue;
+        }
+
+        current_msg_line++;
         char* tempstr = calloc(strlen(line) + 1, sizeof(char));
         strcpy(tempstr, line);
         char* msg_username = strtok(tempstr, sep);
@@ -116,8 +133,9 @@ void send_message(char* username, char* message)
     }
 
     char full_msg[255];
-    sprintf(full_msg, "%s# %s\n", username, message);
+    sprintf(full_msg, "%s# %s", username, message);
     fwrite(full_msg, sizeof(char), strlen(full_msg), messages);
     fclose(messages);
+    current_msg_line++;
     sem_post(chat_sem);
 }

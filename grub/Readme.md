@@ -14,6 +14,7 @@ systemd.unit=rescue.target
 ![rescue.target](./resources/grub-rescue-target-ctrlx.png)
 and exit by pressing `Ctrl+x` or `F10`. Then the GRUB menu will appear again where select the choice for which the
 rescue mode change was made. After that the machine should be in the rescue mode
+![rescue mode shell](./resources/rescue-mode-shell.png)
 
 
 

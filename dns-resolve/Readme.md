@@ -72,3 +72,20 @@ will be looking like that:
 > systemd-resolve takes DNS settings from all interfaces which have those, thus
 > the only problem with that can be that there is a max number of possible `nameserver`
 > entries - `MAXNS`, so one should keep an eye on that
+
+From the [documentation](https://man7.org/linux/man-pages/man8/systemd-resolved.service.8.html)
+about `systemd-resolve`:
+> systemd-resolved maintains the
+             /run/systemd/resolve/resolv.conf file for compatibility with
+             traditional Linux programs. This file may be symlinked from
+             /etc/resolv.conf and is always kept **up-to-date**, containing
+             information about all known DNS servers. Note the file
+             format's limitations: it **does not know a concept of
+             per-interface DNS servers and hence only contains system-wide
+             DNS server definitions**. Note that
+             /run/systemd/resolve/resolv.conf should not be used directly
+             by applications, but only through a symlink from
+             /etc/resolv.conf. If this mode of operation is used local
+             clients that bypass any local DNS API will also bypass
+             systemd-resolved and will talk directly to the known DNS
+             servers.

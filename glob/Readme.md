@@ -33,11 +33,21 @@ $ ls -l -d [p-zD]*
 ```
 ![square brackets globbing](./resources/glob-square-brackets.png)
 
-### 4. '{}'
+### 4. '^' and '!'
+Used to specify that matches everything not in a range
+```bash
+$ du -d0 -h -c /etc/*.[^cd]*
+# OR
+$ du -d0 -h -c /etc/*.[!cd]*
+```
+![up arrow glob](./resources/glob-up-arrow.png)
+
+### 5. '{}'
 Used to specify more than one match pattern to include files matching one of them
 ```bash
 $ ls -l {*.sh,*.txt}
 ```
 ![curly brackets globbing](./resources/glob-curly-brackets.png)
 
-### 5. '|'
+## `shopt`-enabled globs
+Will be put someday, no need now for that
